@@ -2,39 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Artikel anlegen</title>
+    <title th:text="${item.id} ? 'Artikel bearbeiten' : 'Artikel anlegen'"></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
-    <h1>Artikel anlegen</h1>
-    <form action="#" th:action="@{/items}" th:object="${item}" method="post">
+    <h1 th:text="${item.id} ? 'Artikel bearbeiten' : 'Artikel anlegen'"></h1>
+    <form th:action="${item.id} ? @{${'/items/' + item.id + '/edit'}} : @{/items}" th:object="${item}" method="post">
+    <input type="hidden" th:field="*{id}">
+
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
             <input type="text" class="form-control" id="name" th:field="*{name}" required>
         </div>
+
         <div class="mb-3">
             <label for="customer" class="form-label">Kunde</label>
             <input type="text" class="form-control" id="customer" th:field="*{customer}" required>
         </div>
+
         <div class="mb-3">
             <label for="condition" class="form-label">Zustand</label>
-            <textarea class="form-control" id="condition" th:field="*{condition}" required></textarea>
+            <input type="text" class="form-control" id="condition" th:field="*{condition}" required>
         </div>
+
         <div class="mb-3">
             <label for="location" class="form-label">Ort</label>
             <input type="text" class="form-control" id="location" th:field="*{location}" required>
         </div>
+
         <div class="mb-3">
             <label for="priceIn" class="form-label">Einkaufspreis (EK)</label>
             <input type="number" class="form-control" id="priceIn" th:field="*{price_in}" required>
         </div>
+
         <div class="mb-3">
             <label for="priceOut" class="form-label">Verkaufspreis (VK)</label>
             <input type="number" class="form-control" id="priceOut" th:field="*{price_out}" required>
         </div>
-        <button type="submit" class="btn btn-primary">Anlegen</button>
+
+        <button type="submit" class="btn btn-primary">Speichern</button>
     </form>
 </div>
 </body>
 </html>
+
