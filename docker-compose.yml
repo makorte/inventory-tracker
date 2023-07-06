@@ -1,0 +1,15 @@
+version: '3.7'
+volumes:
+  db-inventory-tracker:
+services:
+  db:
+    image: postgres:15.1
+    restart: always
+    environment:
+      POSTGRES_USER: inventory-tracker
+      POSTGRES_PASSWORD: inventory-tracker
+      POSTGRES_DB: inventory-tracker
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-inventory-tracker:/var/lib/postgresql/data
