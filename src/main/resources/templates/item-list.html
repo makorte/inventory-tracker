@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Artikelübersicht</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Kunde</th>
+      <th>Zustand</th>
+      <th>Ort</th>
+      <th>Einkaufspreis (EK)</th>
+      <th>Verkaufspreis (VK)</th>
+      <th>Aktionen</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${items}">
+      <td th:text="${item.name}"></td>
+      <td th:text="${item.customer}"></td>
+      <td th:text="${item.condition}"></td>
+      <td th:text="${item.location}"></td>
+      <td th:text="${item.price_in}"></td>
+      <td th:text="${item.price_out}"></td>
+      <td>
+        <a th:href="@{/items/{id}/edit(id=${item.id})}" class="btn btn-primary">Bearbeiten</a>
+        <a th:href="@{/items/{id}/delete(id=${item.id})}" class="btn btn-danger">Löschen</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <a href="/items/new" class="btn btn-primary">Artikel anlegen</a>
+</div>
+</body>
+</html>

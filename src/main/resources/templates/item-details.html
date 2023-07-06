@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title th:value="${item.name}"></title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h1 th:value="${item.name}"></h1>
+  <div class="mb-3">
+    <label for="name" class="form-label">Name</label>
+    <input type="text" class="form-control" id="name" th:value="${item.name}" readonly>
+  </div>
+  <div class="mb-3">
+    <label for="customer" class="form-label">Kunde</label>
+    <input type="text" class="form-control" id="customer" th:value="${item.customer}" readonly>
+  </div>
+  <div class="mb-3">
+    <label for="condition" class="form-label">Zustand</label>
+    <textarea class="form-control" id="condition" th:value="${item.condition}" readonly></textarea>
+  </div>
+  <div class="mb-3">
+    <label for="location" class="form-label">Ort</label>
+    <input type="text" class="form-control" id="location" th:value="${item.location}" readonly>
+  </div>
+  <div class="mb-3">
+    <label for="priceIn" class="form-label">Einkaufspreis (EK)</label>
+    <input type="number" class="form-control" id="priceIn" th:value="${item.price_in}" readonly>
+  </div>
+  <div class="mb-3">
+    <label for="priceOut" class="form-label">Verkaufspreis (VK)</label>
+    <input type="number" class="form-control" id="priceOut" th:value="${item.price_out}" readonly>
+  </div>
+  <a th:href="@{/items}" class="btn btn-primary">Zurück</a>
+  <a th:href="@{/items/{id}/edit(id=${item.id})}" class="btn btn-primary">Bearbeiten</a>
+  <a th:href="@{/items/{id}/delete(id=${item.id})}" class="btn btn-danger">Löschen</a>
+</div>
+</body>
+</html>
