@@ -9,7 +9,7 @@
 <div class="container">
     <h1 th:text="${item.id} ? 'Artikel bearbeiten' : 'Artikel anlegen'"></h1>
     <form th:action="${item.id} ? @{${'/items/' + item.id + '/edit'}} : @{/items}" th:object="${item}" method="post">
-    <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{id}">
 
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
