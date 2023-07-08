@@ -1,49 +1,67 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="de">
+
 <head>
     <meta charset="UTF-8">
     <title th:text="${item.id} ? 'Artikel bearbeiten' : 'Artikel anlegen'"></title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .button-container {
+            position: absolute;
+            bottom: 0;
+        }
+    </style>
 </head>
+
 <body>
 <div class="container">
-    <h1 th:text="${item.id} ? 'Artikel bearbeiten' : 'Artikel anlegen'"></h1>
+    <h3 th:text="${item.id} ? 'Artikel bearbeiten' : 'Artikel anlegen'"></h3>
     <form th:action="${item.id} ? @{${'/items/' + item.id + '/edit'}} : @{/items}" th:object="${item}" method="post">
-        <input type="hidden" th:field="*{id}">
-
-        <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name" th:field="*{name}" required>
+        <div class="input-field">
+            <label for="name">Name</label>
+            <input type="text" id="name" th:field="*{name}" required>
         </div>
 
-        <div class="mb-3">
-            <label for="customer" class="form-label">Kunde</label>
-            <input type="text" class="form-control" id="customer" th:field="*{customer}" required>
+        <div class="input-field">
+            <label for="customer">Kunde</label>
+            <input type="text" id="customer" th:field="*{customer}" required>
         </div>
 
-        <div class="mb-3">
-            <label for="condition" class="form-label">Zustand</label>
-            <input type="text" class="form-control" id="condition" th:field="*{condition}" required>
+        <div class="input-field">
+            <label for="condition">Zustand</label>
+            <input type="text" id="condition" th:field="*{condition}" required>
         </div>
 
-        <div class="mb-3">
-            <label for="location" class="form-label">Ort</label>
-            <input type="text" class="form-control" id="location" th:field="*{location}" required>
+        <div class="input-field">
+            <label for="location">Ort</label>
+            <input type="text" id="location" th:field="*{location}" required>
         </div>
 
-        <div class="mb-3">
-            <label for="priceIn" class="form-label">Einkaufspreis (EK)</label>
-            <input type="number" class="form-control" id="priceIn" th:field="*{price_in}" required>
+        <div class="input-field">
+            <label for="priceIn">Einkaufspreis (EK)</label>
+            <input type="number" id="priceIn" th:field="*{price_in}" required>
         </div>
 
-        <div class="mb-3">
-            <label for="priceOut" class="form-label">Verkaufspreis (VK)</label>
-            <input type="number" class="form-control" id="priceOut" th:field="*{price_out}" required>
+        <div class="input-field">
+            <label for="priceOut">Verkaufspreis (VK)</label>
+            <input type="number" id="priceOut" th:field="*{price_out}" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Speichern</button>
+        <div class="row button-container">
+            <div class="col s12">
+                <div class="row">
+                    <div class="col s6">
+                        <a href="/items" class="btn btn-small waves-effect waves-light grey">Zurück</a>
+                    </div>
+                    <div class="col s6">
+                        <button type="submit" class="btn">Speichern</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
 </div>
 </body>
 </html>
-

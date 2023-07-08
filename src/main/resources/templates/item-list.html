@@ -1,56 +1,114 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="de">
+
 <head>
     <meta charset="UTF-8">
     <title>Artikelübersicht</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .item-card {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+        }
+
+        .item-card .item-info {
+            flex: 1;
+        }
+
+        .item-card .item-info > div {
+            margin-bottom: 5px;
+        }
+
+        .item-card .item-info .item-name {
+            display: inline-block;
+        }
+
+        .item-card .item-info .item-customer {
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .item-card .action-buttons {
+            display: flex;
+            align-items: center;
+        }
+
+        .item-card .action-buttons a {
+            margin-left: 10px;
+        }
+
+        .sticky-button-container {
+            position: sticky;
+            bottom: 20px;
+            margin-top: 20px;
+            z-index: 999;
+        }
+
+        .thin {
+            font-weight: normal;
+        }
+
+        .item-info {
+            color: black;
+        }
+    </style>
 </head>
+
 <body>
 <div class="container">
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Kunde</th>
-            <th>Zustand</th>
-            <th>Ort</th>
-            <th>Einkaufspreis (EK)</th>
-            <th>Verkaufspreis (VK)</th>
-            <th>Aktionen</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="item : ${items}">
-            <td><a th:text="${item.name}" th:href="@{/items/{id}(id=${item.id})}"></a></td>
-            <td th:text="${item.customer}"></td>
-            <td th:text="${item.condition}"></td>
-            <td th:text="${item.location}"></td>
-            <td th:text="${item.price_in}"></td>
-            <td th:text="${item.price_out}"></td>
-            <td>
-                <a th:href="@{/items/{id}/edit(id=${item.id})}" class="btn btn-primary">Bearbeiten</a>
-                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"
-                   th:data-itemid="${item.id}">Löschen</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <a href="/items/new" class="btn btn-primary">Artikel anlegen</a>
+    <div class="collection">
+        <div th:each="item : ${items}" class="collection-item item-card">
+            <a class="item-info" th:href="@{'/items/' + ${item.id}}">
+                <div>
+                    <b><span class="highlight-text" th:text="${item.name}"></span></b>
+                    <span class="item-customer" th:text="${item.customer}"></span>
+                </div>
+                <div>
+                    <span class="thin">EK:</span> <span th:text="${item.price_in}+'€'"></span>
+                    <span class="thin">VK:</span> <span th:text="${item.price_out}+'€'"></span>
+                </div>
+            </a>
+            <div class="action-buttons">
+                <a href="#" class="btn waves-effect waves-light red modal-trigger" data-target="confirmDeleteModal"
+                   th:data-itemid="${item.id}">
+                    <i class="material-icons">delete</i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="sticky-button-container center-align">
+        <a href="/items/new" class="btn waves-effect waves-light">Artikel anlegen</a>
+    </div>
 </div>
 
 <div th:replace="~{fragments/confirm-delete-modal :: confirmDeleteModal}"></div>
-<script>
-    const deleteButtons = document.querySelectorAll('[data-bs-target="#confirmDeleteModal"]');
-    const confirmDeleteButton = document.getElementById('confirmDeleteButton');
 
-    deleteButtons.forEach((button) => {
-        button.addEventListener('click', function() {
-            const itemId = button.getAttribute('data-itemid');
-            confirmDeleteButton.setAttribute('href', '/items/' + itemId + '/delete');
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteButtons = document.querySelectorAll('[data-target="confirmDeleteModal"]');
+        const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+
+        const options = {
+            dismissible: false // Prevent closing the modal by clicking outside of it
+        };
+
+        M.Modal.init(document.querySelector('#confirmDeleteModal'), options);
+
+        deleteButtons.forEach((button) => {
+            button.addEventListener('click', function () {
+                const itemId = button.getAttribute('data-itemid');
+                confirmDeleteButton.setAttribute('href', '/items/' + itemId + '/delete');
+            });
         });
     });
-
 </script>
 </body>
+
 </html>
