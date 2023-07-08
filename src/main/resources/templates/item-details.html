@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title th:value="${item.name}"></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -18,7 +19,7 @@
     </div>
     <div class="mb-3">
         <label for="condition" class="form-label">Zustand</label>
-        <input class="form-control" id="condition" th:value="${item.condition}" readonly></input>
+        <input class="form-control" id="condition" th:value="${item.condition}" readonly>
     </div>
     <div class="mb-3">
         <label for="location" class="form-label">Ort</label>
@@ -34,7 +35,22 @@
     </div>
     <a th:href="@{/items}" class="btn btn-primary">Zurück</a>
     <a th:href="@{/items/{id}/edit(id=${item.id})}" class="btn btn-primary">Bearbeiten</a>
-    <a th:href="@{/items/{id}/delete(id=${item.id})}" class="btn btn-danger">Löschen</a>
+    <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"
+       th:data-itemid="${item.id}">Löschen</a>
 </div>
+
+<div th:replace="~{fragments/confirm-delete-modal :: confirmDeleteModal}"></div>
+<script>
+    const deleteButtons = document.querySelectorAll('[data-bs-target="#confirmDeleteModal"]');
+    const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+
+    deleteButtons.forEach((button) => {
+        button.addEventListener('click', function() {
+            const itemId = button.getAttribute('data-itemid');
+            confirmDeleteButton.setAttribute('href', '/items/' + itemId + '/delete');
+        });
+    });
+
+</script>
 </body>
 </html>
