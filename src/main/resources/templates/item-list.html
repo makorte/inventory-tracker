@@ -26,10 +26,6 @@
             margin-bottom: 5px;
         }
 
-        .item-card .item-info .item-name {
-            display: inline-block;
-        }
-
         .item-card .item-info .item-customer {
             display: inline-block;
             margin-left: 10px;
@@ -58,11 +54,47 @@
         .item-info {
             color: black;
         }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-container button {
+            margin-left: 10px;
+            margin-right: 0;
+        }
+
+        .search-container .input-field {
+            flex-grow: 1;
+        }
+
+        #search-form {
+            margin-top: 1rem;
+        }
     </style>
 </head>
 
 <body>
 <div class="container">
+    <div class="row">
+        <div class="col s12">
+            <form id="search-form" action="/items/search" method="get">
+                <div class="search-container">
+                    <div class="input-field">
+                        <input type="text" id="keyword" name="keyword" class="validate">
+                        <label for="keyword">Search</label>
+                    </div>
+                    <button type="submit" class="btn-floating waves-effect waves-light">
+                        <i class="material-icons">search</i>
+                    </button>
+                    <button type="button" class="btn-floating waves-effect waves-light red" id="clearSearchButton">
+                        <i class="material-icons">clear</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="collection">
         <div th:each="item : ${items}" class="collection-item item-card">
             <a class="item-info" th:href="@{'/items/' + ${item.id}}">
@@ -94,6 +126,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         const deleteButtons = document.querySelectorAll('[data-target="confirmDeleteModal"]');
         const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+        const clearSearchButton = document.getElementById('clearSearchButton');
 
         const options = {
             dismissible: false // Prevent closing the modal by clicking outside of it
@@ -106,6 +139,12 @@
                 const itemId = button.getAttribute('data-itemid');
                 confirmDeleteButton.setAttribute('href', '/items/' + itemId + '/delete');
             });
+        });
+
+        clearSearchButton.addEventListener('click', function () {
+            document.getElementById('keyword').value = '';
+            const form = document.getElementById("search-form");
+            form.submit();
         });
     });
 </script>

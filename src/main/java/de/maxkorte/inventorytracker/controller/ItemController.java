@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -61,6 +62,13 @@ public class ItemController {
     public String deleteItem(@PathVariable("id") Long id) {
         itemService.delete(id);
         return "redirect:/items";
+    }
+
+    @GetMapping("/search")
+    public String searchItems(@RequestParam("keyword") String keyword, Model model) {
+        List<Item> searchResults = itemService.searchItems(keyword);
+        model.addAttribute("items", searchResults);
+        return "item-list";
     }
 }
 
