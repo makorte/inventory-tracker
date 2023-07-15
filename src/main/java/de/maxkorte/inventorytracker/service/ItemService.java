@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -13,8 +14,8 @@ import java.util.Set;
 public class ItemService {
     private final ItemRepository itemRepository;
 
-    public Item save(Item item) {
-        return itemRepository.save(item);
+    public void save(Item item) {
+        itemRepository.save(item);
     }
 
     public Set<Item> getAll() {
@@ -29,5 +30,9 @@ public class ItemService {
 
     public void delete(Long id) {
         itemRepository.deleteById(id);
+    }
+
+    public List<Item> searchItems(String keyword) {
+        return itemRepository.findByNameContainingIgnoreCaseOrCustomerContainingIgnoreCase(keyword, keyword);
     }
 }
