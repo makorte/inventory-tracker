@@ -3,21 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${item.name}"></title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css?ver=1">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <style>
     .input-field {
         margin-top: 2rem;
     }
+    .carousel-navigation {
+        width: 100%;
+        position: absolute;
+        z-index: 100;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .carousel-navigation a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.7);
+        color: #212121;
+        margin: 0 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .carousel-navigation a:hover {
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    .carousel-item {
+        min-height: 0!important;
+    }
+
+    .carousel .carousel-item img {
+        object-fit: contain;
+        max-width: 100%;
+        max-height: 100%;
+    }
 </style>
 <body>
 <div class="container">
     <h4 th:text="${item.name}"></h4>
-    <div class="input-field">
-        <input type="text" id="name" th:value="${item.name}" readonly>
-        <label for="name">Name</label>
+    <div th:if="${itemImages.size() > 0}" class="carousel carousel-slider center" id="item-carousel">
+        <div class="carousel-fixed-item carousel-navigation">
+            <a class="btn waves-effect" href="javascript:void(0);" onclick="carouselPrev()"><i class="material-icons">chevron_left</i></a>
+            <a class="btn waves-effect" href="javascript:void(0);" onclick="carouselNext()"><i class="material-icons">chevron_right</i></a>
+        </div>
+        <div class="carousel-item" th:each="image : ${itemImages}">
+            <img class="responsive-img" th:src="@{/images/{image}(image=${image})}" alt="Item Image">
+        </div>
     </div>
     <div class="input-field">
         <input type="text" id="customer" th:value="${item.customer}" readonly>
@@ -46,16 +88,26 @@
 
 <div th:replace="~{fragments/confirm-delete-modal :: confirmDeleteModal}"></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const carouselOptions = {
+            fullWidth: true,
+            indicators: true
+        };
+
+        const carousel = document.querySelector('.carousel.carousel-slider');
+        M.Carousel.init(carousel, carouselOptions);
+
         const deleteButtons = document.querySelectorAll('[data-target="confirmDeleteModal"]');
         const confirmDeleteButton = document.getElementById('confirmDeleteButton');
 
-        const options = {
+        const modalOptions = {
             dismissible: false // Prevent closing the modal by clicking outside of it
         };
 
-        M.Modal.init(document.querySelector('#confirmDeleteModal'), options);
+        const modal = document.querySelector('#confirmDeleteModal');
+        M.Modal.init(modal, modalOptions);
 
         deleteButtons.forEach((button) => {
             button.addEventListener('click', function () {
@@ -64,6 +116,18 @@
             });
         });
     });
+
+    function carouselNext() {
+        const carousel = document.querySelector('#item-carousel');
+        const carouselInstance = M.Carousel.getInstance(carousel);
+        carouselInstance.next();
+    }
+
+    function carouselPrev() {
+        const carousel = document.querySelector('#item-carousel');
+        const carouselInstance = M.Carousel.getInstance(carousel);
+        carouselInstance.prev();
+    }
 </script>
 </body>
 </html>

@@ -6,11 +6,16 @@
     <title th:text="${item.id} ? 'Artikel bearbeiten' : 'Artikel anlegen'"></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/compressorjs@1.1.0/dist/compressor.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         .button-container {
             position: absolute;
             bottom: 0;
+        }
+
+        .image-input {
+            margin-top: 3rem;
         }
     </style>
 </head>
@@ -18,7 +23,8 @@
 <body>
 <div class="container">
     <h3 th:text="${item.id} ? 'Artikel bearbeiten' : 'Artikel anlegen'"></h3>
-    <form th:action="${item.id} ? @{${'/items/' + item.id + '/edit'}} : @{/items}" th:object="${item}" method="post">
+    <form th:action="${item.id} ? @{${'/items/' + item.id + '/edit'}} : @{/items}" th:object="${item}" method="post"
+          enctype="multipart/form-data">
         <div class="input-field">
             <label for="name">Name</label>
             <input type="text" id="name" th:field="*{name}" required>
@@ -49,6 +55,11 @@
             <input type="number" id="priceOut" th:field="*{price_out}" required>
         </div>
 
+        <div th:if="${item.id} == null" class="input-field">
+            <label for="images">Bilder hochladen</label>
+            <input class="image-input" type="file" id="images" name="images" accept="image/*" multiple>
+        </div>
+
         <div class="row button-container">
             <div class="col s12">
                 <div class="row">
@@ -65,3 +76,5 @@
 </div>
 </body>
 </html>
+
+

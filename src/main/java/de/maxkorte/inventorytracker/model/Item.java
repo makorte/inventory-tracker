@@ -1,10 +1,9 @@
 package de.maxkorte.inventorytracker.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @Entity
@@ -18,4 +17,6 @@ public class Item {
     private String location;
     private Double price_in;
     private Double price_out;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> imageFileNames;
 }

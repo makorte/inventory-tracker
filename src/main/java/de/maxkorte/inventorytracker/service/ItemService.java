@@ -5,6 +5,7 @@ import de.maxkorte.inventorytracker.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,5 +35,13 @@ public class ItemService {
 
     public List<Item> searchItems(String keyword) {
         return itemRepository.findByNameContainingIgnoreCaseOrCustomerContainingIgnoreCase(keyword, keyword);
+    }
+
+    public List<String> getItemImages(Long id) {
+        Item item = itemRepository.findById(id).orElse(null);
+        if (item != null && item.getImageFileNames() != null) {
+            return item.getImageFileNames();
+        }
+        return Collections.emptyList();
     }
 }
