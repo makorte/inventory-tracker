@@ -3,14 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${item.name}"></title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css?ver=1">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css?ver=1">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <style>
+    #downloadQRCodeForm {
+        margin: 1rem 0;
+    }
+
     .input-field {
         margin-top: 2rem;
     }
+
     .carousel-navigation {
         width: 100%;
         position: absolute;
@@ -40,7 +47,7 @@
     }
 
     .carousel-item {
-        min-height: 0!important;
+        min-height: 0 !important;
     }
 
     .carousel .carousel-item img {
@@ -81,14 +88,18 @@
         <input type="number" id="priceOut" th:value="${item.price_out}" readonly>
         <label for="priceOut">Verkaufspreis (VK)</label>
     </div>
+    <form id="downloadQRCodeForm" th:action="@{/items/{id}/qr(id=${item.id})}" method="get">
+        <button type="submit" class="btn waves-effect waves-light">QR Code</button>
+    </form>
     <a th:href="@{/items}" class="btn">Zurück</a>
     <a th:href="@{/items/{id}/edit(id=${item.id})}" class="btn">Bearbeiten</a>
     <a href="#" class="btn red modal-trigger" data-target="confirmDeleteModal" th:data-itemid="${item.id}">Löschen</a>
 </div>
 
 <div th:replace="~{fragments/confirm-delete-modal :: confirmDeleteModal}"></div>
+</body>
+</html>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const carouselOptions = {
@@ -129,5 +140,3 @@
         carouselInstance.prev();
     }
 </script>
-</body>
-</html>

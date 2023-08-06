@@ -1,25 +1,27 @@
 package de.maxkorte.inventorytracker.controller;
 
+import com.google.zxing.WriterException;
 import de.maxkorte.inventorytracker.model.Item;
 import de.maxkorte.inventorytracker.service.ItemService;
+import de.maxkorte.inventorytracker.util.FileUtil;
+import de.maxkorte.inventorytracker.util.QRCodeUtil;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/items")
 public class ItemController {
     private final ItemService itemService;
+    @Value("${inventorytracker.baseUrl}")
+    private String baseUrl;
 
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
@@ -32,18 +34,12 @@ public class ItemController {
     }
 
     @PostMapping
-    public String createItem(@ModelAttribute("item") Item item, @RequestParam("images") List<MultipartFile> images) throws IOException {
-        List<String> imageFileNames = new ArrayList<>();
-
-        for (MultipartFile image : images) {
-            if (!image.isEmpty()) {
-                String fileName = saveImageFile(image);
-                imageFileNames.add(fileName);
-            }
-        }
+    public String createItem(@ModelAttribute("item") Item item, @RequestParam("images") List<MultipartFile> images) {
+        List<String> imageFileNames = FileUtil.saveImageFiles(images);
 
         item.setImageFileNames(imageFileNames);
         itemService.save(item);
+
         return "redirect:/items";
     }
 
@@ -80,22 +76,8 @@ public class ItemController {
 
     @GetMapping("/{id}/delete")
     public String deleteItem(@PathVariable("id") Long id) {
-        List<String> imageFileNames = itemService.getItemImages(id);
-
-        // Delete the images from the server
-        for (String fileName : imageFileNames) {
-            Path filePath = Path.of(System.getProperty("user.home") + "/inventory-manager-img", fileName);
-            try {
-                Files.delete(filePath);
-            } catch (IOException e) {
-                // Handle the exception if the file deletion fails
-                e.printStackTrace();
-            }
-        }
-
-        // Delete the item from the database
+        FileUtil.deleteImageFiles(itemService.getItemImages(id));
         itemService.delete(id);
-
         return "redirect:/items";
     }
 
@@ -106,10 +88,16 @@ public class ItemController {
         return "item-list";
     }
 
-    private String saveImageFile(MultipartFile image) throws IOException {
-        String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
-        Path filePath = Path.of(System.getProperty("user.home") + "/inventory-manager-img/", fileName);
-        Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-        return fileName;
+    @GetMapping("/{id}/qr")
+    public void downloadQRCode(@PathVariable("id") Long id, HttpServletResponse response) throws IOException, WriterException {
+        Item item = itemService.getById(id);
+
+        String content = baseUrl + "/items/" + item.getId();
+        String fileName = item.getName() + ".png";
+
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+        response.setContentType("image/png");
+
+        QRCodeUtil.generateQRCode(content, response.getOutputStream());
     }
 }

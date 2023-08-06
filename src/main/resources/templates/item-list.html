@@ -9,6 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
+        #search-form {
+            margin-top: 1rem;
+        }
+
         .item-card {
             margin-bottom: 20px;
             display: flex;
@@ -68,10 +72,6 @@
         .search-container .input-field {
             flex-grow: 1;
         }
-
-        #search-form {
-            margin-top: 1rem;
-        }
     </style>
 </head>
 
@@ -121,6 +121,8 @@
 </div>
 
 <div th:replace="~{fragments/confirm-delete-modal :: confirmDeleteModal}"></div>
+</body>
+</html>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -148,6 +150,3 @@
         });
     });
 </script>
-</body>
-
-</html>

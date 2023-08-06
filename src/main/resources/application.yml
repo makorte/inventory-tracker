@@ -9,7 +9,9 @@ spring:
       ddl-auto: update
   servlet:
     multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
+      max-file-size: 100MB
+      max-request-size: 100MB
 server:
   port: 8084
+inventorytracker:
+  baseUrl: http://192.168.178.115:8084
