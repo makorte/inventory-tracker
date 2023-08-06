@@ -38,9 +38,9 @@ public class ItemController {
         List<String> imageFileNames = FileUtil.saveImageFiles(images);
 
         item.setImageFileNames(imageFileNames);
-        itemService.save(item);
+        Item savedItem = itemService.save(item);
 
-        return "redirect:/items";
+        return "redirect:/items/" + savedItem.getId();
     }
 
     @GetMapping

@@ -15,8 +15,8 @@ import java.util.Set;
 public class ItemService {
     private final ItemRepository itemRepository;
 
-    public void save(Item item) {
-        itemRepository.save(item);
+    public Item save(Item item) {
+        return itemRepository.save(item);
     }
 
     public Set<Item> getAll() {
