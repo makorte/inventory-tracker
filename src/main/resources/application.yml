@@ -1,4 +1,8 @@
 spring:
+  security:
+    user:
+      name: user
+      password: password
   datasource:
     url: jdbc:postgresql://localhost:5432/inventory-tracker
     username: inventory-tracker
@@ -11,6 +15,8 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
+  session:
+    timeout: 1800
 server:
   port: 8084
 inventorytracker:

@@ -55,6 +55,13 @@
         max-width: 100%;
         max-height: 100%;
     }
+
+    .buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
 </style>
 <body>
 <div class="container">
@@ -91,9 +98,12 @@
     <form id="downloadQRCodeForm" th:action="@{/items/{id}/qr(id=${item.id})}" method="get">
         <button type="submit" class="btn waves-effect waves-light">QR Code</button>
     </form>
-    <a th:href="@{/items}" class="btn">Zurück</a>
-    <a th:href="@{/items/{id}/edit(id=${item.id})}" class="btn">Bearbeiten</a>
-    <a href="#" class="btn red modal-trigger" data-target="confirmDeleteModal" th:data-itemid="${item.id}">Löschen</a>
+    <div class="buttons">
+        <a th:href="@{/items}" class="btn">Zurück</a>
+        <a th:href="@{/items/{id}/edit(id=${item.id})}" class="btn">Bearbeiten</a>
+        <a href="#" class="btn red modal-trigger" data-target="confirmDeleteModal"
+           th:data-itemid="${item.id}">Löschen</a>
+    </div>
 </div>
 
 <div th:replace="~{fragments/confirm-delete-modal :: confirmDeleteModal}"></div>
