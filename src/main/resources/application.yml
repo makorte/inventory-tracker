@@ -1,8 +1,8 @@
 spring:
   security:
     user:
-      name: user
-      password: password
+      name: ${IVT_USERNAME}
+      password: ${IVT_PASSWORD}
   datasource:
     url: jdbc:postgresql://localhost:5432/inventory-tracker
     username: inventory-tracker
@@ -20,4 +20,4 @@ spring:
 server:
   port: 8084
 inventorytracker:
-  baseUrl: http://192.168.178.115:8084
+  baseUrl: ${IVT_BASEURL}
