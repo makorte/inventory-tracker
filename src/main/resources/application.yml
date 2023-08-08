@@ -4,7 +4,7 @@ spring:
       name: ${IVT_USERNAME}
       password: ${IVT_PASSWORD}
   datasource:
-    url: jdbc:postgresql://localhost:5432/inventory-tracker
+    url: jdbc:postgresql://db:5432/inventory-tracker
     username: inventory-tracker
     password: inventory-tracker
   jpa:

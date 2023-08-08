@@ -1,7 +1,16 @@
 version: '3.7'
+networks:
+  network:
 volumes:
   db-inventory-tracker:
 services:
+  web:
+    container_name: "web"
+    build: .
+    ports:
+      - "8081:8081"
+    networks:
+      - network
   db:
     image: postgres:15.1
     restart: always
@@ -11,5 +20,7 @@ services:
       POSTGRES_DB: inventory-tracker
     ports:
       - "5432:5432"
+    networks:
+      - network
     volumes:
       - db-inventory-tracker:/var/lib/postgresql/data
