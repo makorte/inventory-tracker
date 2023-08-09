@@ -76,6 +76,10 @@
         </div>
     </div>
     <div class="input-field">
+        <input type="text" id="serialNumber" th:value="${item.serialNumber}" readonly>
+        <label for="serialNumber">Seriennummer</label>
+    </div>
+    <div class="input-field">
         <input type="text" id="customer" th:value="${item.customer}" readonly>
         <label for="customer">Kunde</label>
     </div>
@@ -88,11 +92,11 @@
         <label for="location">Ort</label>
     </div>
     <div class="input-field">
-        <input type="number" id="priceIn" th:value="${item.price_in}" readonly>
+        <input type="number" id="priceIn" th:value="${item.getPriceIn}" readonly>
         <label for="priceIn">Einkaufspreis (EK)</label>
     </div>
     <div class="input-field">
-        <input type="number" id="priceOut" th:value="${item.price_out}" readonly>
+        <input type="number" id="priceOut" th:value="${item.getPriceOut}" readonly>
         <label for="priceOut">Verkaufspreis (VK)</label>
     </div>
     <form id="downloadQRCodeForm" th:action="@{/items/{id}/qr(id=${item.id})}" method="get">

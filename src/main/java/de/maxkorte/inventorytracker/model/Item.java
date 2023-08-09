@@ -12,11 +12,12 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String name;
+    private String serialNumber;
     private String customer;
     private String condition;
     private String location;
-    private Double price_in;
-    private Double price_out;
+    private Double priceIn;
+    private Double priceOut;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> imageFileNames;
 }

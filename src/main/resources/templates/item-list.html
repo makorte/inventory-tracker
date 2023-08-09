@@ -103,8 +103,11 @@
                     <span class="item-customer" th:text="${item.customer}"></span>
                 </div>
                 <div>
-                    <span class="thin">EK:</span> <span th:text="${item.price_in}+'€'"></span>
-                    <span class="thin">VK:</span> <span th:text="${item.price_out}+'€'"></span>
+                    <span th:text="${item.serialNumber}"></span>
+                </div>
+                <div>
+                    <span class="thin">EK:</span> <span th:text="${item.getPriceIn}+'€'"></span>
+                    <span class="thin">VK:</span> <span th:text="${item.getPriceOut}+'€'"></span>
                 </div>
             </a>
             <div class="action-buttons">

@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ItemRepository extends CrudRepository<Item, Long> {
-    List<Item> findByNameContainingIgnoreCaseOrCustomerContainingIgnoreCase(String name, String customer);
+    List<Item> findByNameContainingIgnoreCaseOrCustomerContainingIgnoreCaseOrSerialNumberContainingIgnoreCase(String name, String customer, String serialNumber);
 }

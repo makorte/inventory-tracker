@@ -34,7 +34,7 @@ public class ItemService {
     }
 
     public List<Item> searchItems(String keyword) {
-        return itemRepository.findByNameContainingIgnoreCaseOrCustomerContainingIgnoreCase(keyword, keyword);
+        return itemRepository.findByNameContainingIgnoreCaseOrCustomerContainingIgnoreCaseOrSerialNumberContainingIgnoreCase(keyword, keyword, keyword);
     }
 
     public List<String> getItemImages(Long id) {
