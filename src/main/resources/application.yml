@@ -18,6 +18,6 @@ spring:
   session:
     timeout: 1800
 server:
-  port: 8084
+  port: 8081
 inventorytracker:
   baseUrl: http://localhost

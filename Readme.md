@@ -19,7 +19,7 @@ Der inventory-tracker ist ein Tool, das die Erfassung von Artikeln (Items) in ei
 
 ## Betrieb
 Es muss die Umgebungsvariable INVENTORYTRACKER_BASE_URL (default: http://localhost) mit der URL, unter der die Anwendung später deployt wird gesetzt werden.
-Anschlißenend kann die Datenbank über die docker compose und anschließend die Java Anwendung gestartet werden.
+Anschließend kann die Anwendung einmal gebaut und anschließend über docker-compose gestartet werden.
 
 ### Benutzername und Passwort
 Die Anwendung unterstützt nur einen einzigen globalen Nutzer. Der Nutzername muss über die Umgebungsvariable SPRING_SECURITY_USER_NAME (default: user) und das Passwort über die Umgebungsvariable SPRING_SECURITY_USER_PASSWORD (default: password) gesetzt werden.

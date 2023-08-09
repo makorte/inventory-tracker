@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.UUID;
@@ -22,12 +23,23 @@ public class FileUtil {
 
     private static String saveImageFile(MultipartFile image) {
         String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
-        Path filePath = Path.of(System.getProperty("user.home") + "/inventory-manager-img/", fileName);
+        Path directoryPath = Paths.get(System.getProperty("user.home"), "inventory-manager-img");
+
+        if (!Files.exists(directoryPath)) {
+            try {
+                Files.createDirectories(directoryPath);
+            } catch (IOException e) {
+                throw new ImageSavingException("Failed to create directory: " + directoryPath);
+            }
+        }
+
+        Path filePath = directoryPath.resolve(fileName);
         try {
             Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            throw new ImageSavingException();
+            throw new ImageSavingException("Failed to save image file: " + filePath);
         }
+
         return fileName;
     }
 
