@@ -32,32 +32,32 @@
 
         <div class="input-field">
             <label for="serialNumber">Seriennummer</label>
-            <input type="text" id="serialNumber" th:field="*{serialNumber}" required>
+            <input type="text" id="serialNumber" th:field="*{serialNumber}">
         </div>
 
         <div class="input-field">
             <label for="customer">Kunde</label>
-            <input type="text" id="customer" th:field="*{customer}" required>
+            <input type="text" id="customer" th:field="*{customer}">
         </div>
 
         <div class="input-field">
             <label for="condition">Zustand</label>
-            <input type="text" id="condition" th:field="*{condition}" required>
+            <input type="text" id="condition" th:field="*{condition}">
         </div>
 
         <div class="input-field">
             <label for="location">Ort</label>
-            <input type="text" id="location" th:field="*{location}" required>
+            <input type="text" id="location" th:field="*{location}">
         </div>
 
         <div class="input-field">
             <label for="priceIn">Einkaufspreis (EK)</label>
-            <input type="number" id="priceIn" th:field="*{priceIn}" required>
+            <input type="number" id="priceIn" th:field="*{priceIn}">
         </div>
 
         <div class="input-field">
             <label for="priceOut">Verkaufspreis (VK)</label>
-            <input type="number" id="priceOut" th:field="*{priceOut}" required>
+            <input type="number" id="priceOut" th:field="*{priceOut}">
         </div>
 
         <div th:if="${item.id} == null" class="input-field">
